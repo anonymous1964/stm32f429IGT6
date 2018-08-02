@@ -1,0 +1,25 @@
+main.c
+
+#include "sys.h" 
+#include "usart.h" 
+#include "delay.h" 
+
+int main(void)
+{ 
+	Stm32_Clock_Init(360,25,2,8);
+	RCC->AHB1ENR |=1<<1;
+	GPIOB->MODER=0x05;
+	GPIOB->OTYPER=0x00;
+	GPIOB->OSPEEDR=0x0F;
+	GPIOB->PUPDR=0x05;
+	delay_init(180);
+	
+	while(1)
+	{
+		GPIOB->BSRR=0x03;
+		delay_ms(500);
+		GPIOB->BSRR=0x00030000;
+		delay_ms(500);
+	}
+	
+}
