@@ -1,0 +1,37 @@
+main.c
+
+#include "sys.h"
+#include "delay.h"
+#include "usart.h"
+
+
+int main(void)
+{
+	GPIO_InitTypeDef GPIO_InitStructure;
+	
+	HAL_Init();
+	delay_init(180);
+	Stm32_Clock_Init(360,25,2,8);
+	
+	__HAL_RCC_GPIOB_CLK_ENABLE();   
+	
+	GPIO_InitStructure.Mode=GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStructure.Pin=GPIO_PIN_0 | GPIO_PIN_1;
+	GPIO_InitStructure.Pull=GPIO_PULLUP;
+	GPIO_InitStructure.Speed=GPIO_SPEED_FREQ_VERY_HIGH;
+	
+	
+	HAL_GPIO_Init(GPIOB,&GPIO_InitStructure);
+	while(1)
+	{
+		
+	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_0,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_1,GPIO_PIN_RESET);
+	delay_ms(500);
+	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_0,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_1,GPIO_PIN_SET);
+	delay_ms(500);
+	}
+
+	}
+
